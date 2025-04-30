@@ -18,15 +18,46 @@
         
         document.getElementById('main-content').style.display = 'block';
     });</script>
-<nav class="sidebar">
-    <ul>
-      <li><a href="index.html">Home <i class="fa-solid fa-house"></i></a></li>
-      <li><a href="about.html">About <i class="fa-solid fa-info"></i></a></li>
-      <li><a href="contact.html">Contact <i class="fa-solid fa-phone"></i></a></li>
-      <li><a href="form.html">Personal Survey <i class="fa-solid fa-clipboard"></i></a></li>
-    </ul>
-  </nav>
 <body>
+  <header>
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">Le Em's Portfolio :> </a>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="home.html"> <i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="about.html"><i class="fa-solid fa-info"></i> About</a></li>
+        <li><a href="contact.html"><i class="fa-solid fa-phone"></i> Contact</a></li>
+        <li><a href="form.html"> <i class="fa-solid fa-clipboard"></i> Survey</a></li>
+      </ul>
+      <button class="menu-icon" id="menu-icon" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="close-icon" id="close-icon">
+        <i class="fa-solid fa-x"></i>
+      </div>
+    </nav>
+  </header>
+  <script>
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    const navMenu = document.getElementById('nav-menu');
+  
+    menuIcon.addEventListener('click', () => {
+      navMenu.classList.add('active');
+      closeIcon.classList.add('active');
+    });
+  
+    closeIcon.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      closeIcon.classList.remove('active');
+    });
+  
+    document.querySelectorAll('.nav-menu li a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        closeIcon.classList.remove('active');
+      });
+    });
+  </script>
     <section id="about">
     <h1>About</h1>
     <hr>
