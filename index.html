@@ -112,51 +112,54 @@
    <hr>
   <!-- JavaScript for Mute/Unmute -->
   <script>
-    function musicnileem(videoId) {
-        var video = document.getElementById(videoId);
-        
-        if (video.muted) {
-          
-            fadeInMusic(video);
-            video.muted = false;  
-        } else {
-        
-            fadeOutMusic(video, function() {
-                video.muted = true;  
-            });
-        }
-    }
-  
-    function fadeInMusic(video) {
-        var volume = 0;  
-        video.volume = volume;
-  
-        var fadeInInterval = setInterval(function() {
-            if (volume < 1) {
-                volume += 0.01; 
-                video.volume = volume;
-            } else {
-                clearInterval(fadeInInterval); 
-            }
-        }, 30); 
-    }
-  
-    function fadeOutMusic(video, callback) {
-        var volume = video.volume;
-  
-        var fadeOutInterval = setInterval(function() {
-            if (volume > 0) {
-                volume -= 0.01;  
-                video.volume = volume;
-            } else {
-                clearInterval(fadeOutInterval);  
-                video.volume = 0;  
-                callback();  
-            }
-        }, 30);  
-    }
+   function musicnileem(videoId) {
+    const video = document.getElementById(videoId);
 
-    
+    if (video.muted || video.volume === 0) {
+        video.muted = false; // Unmute before fading in
+        fadeInMusic(video);
+    } else {
+        fadeOutMusic(video, () => {
+            video.muted = true;
+        });
+    }
+}
+
+function fadeInMusic(video) {
+    let volume = video.volume || 0;
+    const targetVolume = 1.0;
+    const step = 0.002; // smaller step for smoother fade
+    const intervalTime = 10; // faster interval
+
+    video.volume = volume;
+
+    const fadeInInterval = setInterval(() => {
+        if (volume < targetVolume) {
+            volume = Math.min(volume + step, targetVolume); // avoid going above 1.0
+            video.volume = volume;
+        } else {
+            clearInterval(fadeInInterval);
+        }
+    }, intervalTime);
+}
+
+function fadeOutMusic(video, callback) {
+    let volume = video.volume;
+    const step = 0.002; // smaller step for smoother fade
+    const intervalTime = 10;
+
+    const fadeOutInterval = setInterval(() => {
+        if (volume > 0) {
+            volume = Math.max(volume - step, 0); // avoid going below 0
+            video.volume = volume;
+        } else {
+            clearInterval(fadeOutInterval);
+            video.volume = 0;
+            callback();
+        }
+    }, intervalTime);
+}
+
   </script>
 </section>
 
